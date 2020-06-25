@@ -4,8 +4,8 @@ A dashboard to look at the types of short-term rental listings from Airbnb that 
 
 Project consists of:
 * Scraped data from:
-- Inside Airbnb 
-- TBD
+  - Inside Airbnb 
+  - TBD
 * Snowflake
 * Tableau
 
