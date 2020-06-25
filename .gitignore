@@ -1,0 +1,12 @@
+# Dev Tools
+.vscode/
+
+# Too big
+data/
+
+# Environments
+.venv/
+
+# type checking support files
+.mypy_cache/
+
