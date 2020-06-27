@@ -2,11 +2,14 @@
 .vscode/
 
 # Too big
-data/
+data/*
 
 # Environments
 .venv/
 
 # type checking support files
 .mypy_cache/
+
+# Dev Misc
+notes/
 
