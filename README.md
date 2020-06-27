@@ -7,8 +7,8 @@ A dashboard to look at the types of short-term rental listings from Airbnb that 
 2. Install the required dependencies with `pip install -r requirements.txt`.
 3. To get Airbnb data run: `python src/listings.py`
 4. To download Kaggle datasets:
-  1. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
-  2. Run from the command line:
+  * You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
+  * Run from the command line:
     - World Cities Population: `kaggle datasets download -d i2i2i2/cities-of-the-world -p data --unzip`
     - World Cities Cost of Living: `kaggle datasets download -d debdutta/cost-of-living-index-by-country -p data/ --unzip`
 5. Next step...
