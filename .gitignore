@@ -11,5 +11,5 @@ data/*
 .mypy_cache/
 
 # Dev Misc
-notes/
+notes/.ipynb_checkpoints
 
