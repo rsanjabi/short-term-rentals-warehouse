@@ -1,6 +1,6 @@
 ### Airbnb Short-Term Rental Impact
 
-A dashboard to look at the types of short-term rental listings from Airbnb that could be impacting US cities' housing inventory.
+A dashboard to look at the Airbnb short-term rental listings and it's impacts on housing.
 
 ### Installation:
 1. Download repository and create virtual environment.
