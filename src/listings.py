@@ -1,6 +1,7 @@
 """ Scrapes airbnb listings for US cities from
     http://insideairbnb.com/get-the-data.html
 """
+from cities import CITIES
 import requests
 from requests.exceptions import HTTPError
 from bs4 import BeautifulSoup
@@ -24,7 +25,8 @@ def get_filenames(soup):
         filename (str): city name + updated_date as csv
         download_file (str): url of the file of listings to be downloaded
     """
-    cities = soup.find_all("h2", text=re.compile('(United States)'))
+    re_cities = '|'.join(CITIES)
+    cities = soup.find_all("h2", text=re.compile(re_cities, re.IGNORECASE))
 
     for h2 in cities:
         city_soup = h2.next_sibling.next_sibling.next_sibling.next_sibling
@@ -68,7 +70,7 @@ def scrape_listings():
             print(f'Error connecting to: {URL}: {e}')
             print("Skipping to next city.")
 
-        open("../data/" + file_name, 'wb').write(download_file.content)
+        open("data/" + file_name, 'wb').write(download_file.content)
 
 
 if __name__ == "__main__":
