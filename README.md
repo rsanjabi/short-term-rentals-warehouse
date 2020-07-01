@@ -9,7 +9,7 @@ A dashboard to look at the Airbnb short-term rental listings and it's impacts on
 4. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
 5. To get World Cities Population: `kaggle datasets download -d i2i2i2/cities-of-the-world -p data --unzip`
 6. To get World Cities Cost of Living: `kaggle datasets download -d debdutta/cost-of-living-index-by-country -p data/ --unzip`
-7. Next steps...
+7. You will need a Snowflake account with priveleges. You will need to set environment variables for username, password, and account. `export SNOW_USER=<your user name>`, `export SNOW_PASS=<your password>`, `export SNOW_ACCOUNT=<your Snowflake account>`
 
 
 ### Data Sources:
