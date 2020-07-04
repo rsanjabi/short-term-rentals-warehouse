@@ -6,9 +6,11 @@ import requests
 from requests.exceptions import HTTPError
 from bs4 import BeautifulSoup
 
+from pathlib import Path
 import sys
 import re
 import time
+import os
 
 # Replace with relevant header details
 HTTP_HEADER = "{'User-Agent':'US Cities Project; rebecca.sanjabi@gmail.com'}"
@@ -44,8 +46,14 @@ def get_filenames(soup):
 
 def scrape_listings():
     """Scrapes US city listings from Inside Airbnb by city and latest_date.
-       Files are in airbnb/data/<city+date.csv>
+       Files are in airbnb/data/listings/<city+date.csv>
     """
+
+    # Setup the directory for storing listings
+    path = "../data/listings/"
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    Path(path).mkdir(parents=True, exist_ok=True)
+
     print(f"Searching for listings at: {URL}")
     r = requests.get(URL)
 
@@ -70,7 +78,7 @@ def scrape_listings():
             print(f'Error connecting to: {URL}: {e}')
             print("Skipping to next city.")
 
-        open("data/" + file_name, 'wb').write(download_file.content)
+        open(path+file_name, 'wb').write(download_file.content)
 
 
 if __name__ == "__main__":
