@@ -3,11 +3,15 @@
 A dashboard to look at the Airbnb short-term rental listings and it's impacts on housing.
 
 ### Installation:
+#### To reproduce this warehouse, you will need to have several cloud-based accounts set up prior to running the installation steps:
+1. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
+2. You will need a Snowflake account with priveleges. Set environment variables for username, password, and account. `export SNOW_USER=<your user name>`, `export SNOW_PASS=<your password>`, `export SNOW_ACCOUNT=<your Snowflake account>`
+3. An AWS account for S3 bucket storage.
+
+#### Scripts to download datasets and setup the warehouse:
 1. Download repository and create virtual environment.
 2. Install the required dependencies with `pip install -r requirements.txt`.
-3. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
 4. To extract datasets (scraping and API calls) run `python src/extract.py`
-5. You will need a Snowflake account with priveleges. Set environment variables for username, password, and account. `export SNOW_USER=<your user name>`, `export SNOW_PASS=<your password>`, `export SNOW_ACCOUNT=<your Snowflake account>`
 6. To load data run `python src/load.py`
 
 
