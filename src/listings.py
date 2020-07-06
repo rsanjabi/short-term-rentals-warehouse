@@ -13,17 +13,45 @@ import os
 # Replace with relevant header details
 HTTP_HEADER = "{'User-Agent':'Cities Project; rebecca.sanjabi@gmail.com'}"
 URL = "http://insideairbnb.com/get-the-data.html"
+SCOPE = 'ALL'
 
 
-def get_filenames(soup):
-    """A generator to find city, file_date, and download url in source page.
+def get_all(soup):
+    """A generator to find all listings for every city, file_date,
+       and download url in source page.
 
     Args:
         soup (BeautifulSoup): Complete html soup of source page.
 
     Yields:
-        filename (str): city name + updated_date as csv
-        download_file (str): url of the file of listings to be downloaded
+        filename (str): city name + updated_date as csv of dataset
+        download_file (str): url of the listing to be downloaded
+    """
+
+    cities = soup.find_all("h2")
+    for h2_elem in cities:
+        city_soup = h2_elem.next_sibling.next_sibling.next_sibling.next_sibling
+        for table_elements in city_soup.find_all('tr'):
+            elements = table_elements.find_all('td')
+            if len(elements) != 0:
+                if elements[2].text == 'listings.csv':
+                    e = elements[1].text
+                    city = e.replace(",", "").replace(" ", "").replace(".", "")
+                    date = elements[0].text.replace(",", "").replace(" ", "")
+                    filename = city + "_" + date + ".csv"
+                    download_file = elements[2].a.get('href')
+                    yield filename, download_file
+
+
+def get_latest(soup):
+    """A generator to find latest city, file_date, and download url in source page.
+
+    Args:
+        soup (BeautifulSoup): Complete html soup of source page.
+
+    Yields:
+        filename (str): city name + updated_date as csv of latest dataset
+        download_file (str): url of the latest listing to be downloaded
     """
 
     cities = soup.find_all("h2")
@@ -62,7 +90,11 @@ def scrape_listings():
         sys.exit()
 
     soup = BeautifulSoup(r.text, "html.parser")
-    cities = get_filenames(soup)
+
+    if SCOPE == 'ALL':
+        cities = get_all(soup)
+    else:
+        cities = get_latest(soup)
 
     for file_name, file_url in cities:
 

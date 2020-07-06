@@ -5,11 +5,10 @@ A dashboard to look at the Airbnb short-term rental listings and it's impacts on
 ### Installation:
 1. Download repository and create virtual environment.
 2. Install the required dependencies with `pip install -r requirements.txt`.
-3. To get Airbnb data run: `python src/listings.py`
-4. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
-5. Place World Cities Population in top level of data/ folder: `kaggle datasets download -d i2i2i2/cities-of-the-world -p data --unzip`
-6. Place World Cities Cost of Living in top level of data/ folder: `kaggle datasets download -d debdutta/cost-of-living-index-by-country -p data/ --unzip`
-7. You will need a Snowflake account with priveleges. Set environment variables for username, password, and account. `export SNOW_USER=<your user name>`, `export SNOW_PASS=<your password>`, `export SNOW_ACCOUNT=<your Snowflake account>`
+3. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
+4. To extract datasets (scraping and API calls) run `python src/extract.py`
+5. You will need a Snowflake account with priveleges. Set environment variables for username, password, and account. `export SNOW_USER=<your user name>`, `export SNOW_PASS=<your password>`, `export SNOW_ACCOUNT=<your Snowflake account>`
+6. To load data run `python src/load.py`
 
 
 ### Data Sources:
