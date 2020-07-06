@@ -4,6 +4,7 @@
 import snowflake.connector
 import glob
 import os
+import time
 
 
 def get_listings():
@@ -207,10 +208,16 @@ def load_db():
     ''' Will take all the steps needed to load the data into snowflake'''
     ctx = init_db()
     load_cost_living(ctx)
+    print("Loaded cost of living data.")
     load_population(ctx)
+    print("Loaded city population data.")
     load_listings(ctx)
+    print("Loaded Airbnb listings.")
     ctx.close()
 
 
 if __name__ == "__main__":
+    start = time.perf_counter()
     load_db()
+    end = time.perf_counter()
+    print(f"Completed loading datasets in {end-start:.2f} seconds.")

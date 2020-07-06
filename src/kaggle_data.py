@@ -13,10 +13,12 @@ def get_kaggle_datasets():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     print("Downloading cities-of-the-world.zip from Kaggle.")
     api.dataset_download_files('i2i2i2/cities-of-the-world',
-                               path='../data/')
+                               path='../data/',
+                               unzip=True)
     print("Downloading cost-of-living-index-by-country.zip from Kaggle.")
     api.dataset_download_files('debdutta/cost-of-living-index-by-country',
-                               path='../data/')
+                               path='../data/',
+                               unzip=True)
     return
 
 
