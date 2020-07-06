@@ -9,17 +9,73 @@ import os
 def get_listings():
     ''' Generator of city names, scrape date and file path'''
 
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    os.chdir("../data/listings")
+    # os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    # os.chdir("../data/listings")
+    listing = {}
     for f in glob.glob("*.csv"):
-        city, date = f.rstrip(".csv").split("_")
-        yield city, date, f
+        listing['city'], listing['date'] = f.rstrip(".csv").split("_")
+        listing['file'] = f
+        yield listing
 
 
 def load_listings(ctx):
     ''' Stage and load airbnb listings to snowflake'''
     cs = ctx.cursor()
-    cs.close()
+
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir("../data/listings")
+
+    try:
+        # Create table
+        table_sql = '''CREATE OR REPLACE TABLE raw_listings
+                    (id integer,
+                     name string,
+                     host_id integer,
+                     host_name string,
+                     neighborhood_group string,
+                     neighborhood string,
+                     latitude float,
+                     longitude float,
+                     roomt_type string,
+                     price integer,
+                     min_nights integer,
+                     number_of_reviews integer,
+                     last_review date,
+                     reviews_per_month float,
+                     total_host_lis integer,
+                     availability_365 integer,
+                     city string,
+                     scrape_date date);
+                    '''
+        cs.execute(table_sql)
+
+        # Create stage
+        stg_sql = '''CREATE OR REPLACE STAGE stg_listings
+                    FILE_FORMAT = (type = 'CSV' skip_header = 1
+                    FIELD_OPTIONALLY_ENCLOSED_BY = '\042');
+                    '''
+        cs.execute(stg_sql)
+
+        listings = get_listings()
+        for listing in listings:
+            # Put local file into internal stage
+            put_sql = f"put file://{listing['file']} @stg_listings;"
+            print(f"{listing['city']} and {listing['date']}")
+            cs.execute(put_sql)
+            # Copy internal stage to raw load table
+            sql = (
+                f"COPY INTO raw_listings FROM ("
+                f"SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,"
+                f"$13, $14, $15, $16, '{listing['city']}' as city, "
+                f"TO_DATE('{listing['date']}', 'DDMONYYYY') as scrape_date "
+                f"FROM @stg_listings) "
+                f"ON_ERROR = CONTINUE;"
+            )
+            cs.execute(sql)
+    except Exception as e:
+        print(f"Error loading listings: {e}")
+    finally:
+        cs.close()
     return
 
 
@@ -67,7 +123,56 @@ def load_cost_living(ctx):
 def load_population(ctx):
     ''' Stage and load population data to snowflake'''
     cs = ctx.cursor()
-    cs.close
+
+    try:
+        # Create table
+        table_sql = '''CREATE OR REPLACE TABLE raw_population
+                       (geonameid integer,
+                        name string,
+                        asciiname string,
+                        alternatenames string,
+                        latitude float,
+                        longitude float,
+                        feature_class string,
+                        feature_code string,
+                        country_code string,
+                        cc2 string,
+                        admin1_code string,
+                        admin2_code string,
+                        admin3_code string,
+                        admin4_code string,
+                        population integer,
+                        elevation integer,
+                        dem integer,
+                        timezone string,
+                        modification_date date
+                        );
+                    '''
+        cs.execute(table_sql)
+
+        # Create stage
+        stg_sql = '''CREATE OR REPLACE STAGE stg_pop
+                     file_format = (type = 'CSV' skip_header = 1
+                        FIELD_OPTIONALLY_ENCLOSED_BY = '\042'
+                        ENCODING='ISO-8859-1');
+                    '''
+        cs.execute(stg_sql)
+
+        # Put local file into internal stage
+        file_loc = "../data/cities15000.csv"
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        put_sql = f"put file://{file_loc} @stg_pop;"
+        cs.execute(put_sql)
+
+        # Copy internal stage to raw load table
+        cp_sql = '''copy into raw_population from @stg_pop ON_ERROR = CONTINUE;
+                '''
+        cs.execute(cp_sql)
+
+    except Exception as e:
+        print(f"Error loading {file_loc}: {e}")
+    finally:
+        cs.close()
     return
 
 

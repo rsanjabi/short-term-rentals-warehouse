@@ -13,7 +13,7 @@ import time
 import os
 
 # Replace with relevant header details
-HTTP_HEADER = "{'User-Agent':'US Cities Project; rebecca.sanjabi@gmail.com'}"
+HTTP_HEADER = "{'User-Agent':'Cities Project; rebecca.sanjabi@gmail.com'}"
 URL = "http://insideairbnb.com/get-the-data.html"
 
 
@@ -27,8 +27,9 @@ def get_filenames(soup):
         filename (str): city name + updated_date as csv
         download_file (str): url of the file of listings to be downloaded
     """
-    re_cities = '|'.join(CITIES)
-    cities = soup.find_all("h2", text=re.compile(re_cities, re.IGNORECASE))
+    # re_cities = '|'.join(CITIES)
+    # cities = soup.find_all("h2", text=re.compile(re_cities, re.IGNORECASE))
+    cities = soup.find_all("h2")
 
     for h2 in cities:
         city_soup = h2.next_sibling.next_sibling.next_sibling.next_sibling
