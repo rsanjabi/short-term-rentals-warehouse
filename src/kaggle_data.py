@@ -3,10 +3,14 @@
     https://www.kaggle.com/docs/api
 '''
 from kaggle.api.kaggle_api_extended import KaggleApi
+# import boto3
+
 import os
 
 
 def get_kaggle_datasets():
+    ''' Grabs Kaggle datasets and places them in S3 bucket '''
+
     api = KaggleApi()
     api.authenticate()
 
