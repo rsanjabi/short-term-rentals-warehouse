@@ -61,7 +61,7 @@ def load_listings(ctx):
         for listing in listings:
             # Put local file into internal stage
             put_sql = f"put file://{listing['file']} @stg_listings;"
-            print(f"{listing['city']} and {listing['date']}")
+            print(f"{listing['city']} for {listing['date']}")
             cs.execute(put_sql)
             # Copy internal stage to raw load table
             sql = (

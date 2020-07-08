@@ -3,6 +3,9 @@
 
 # Too big
 data/
+dbt/target/
+dbt/dbt_modules/
+dbt/logs/
 
 # Environments
 .venv/
@@ -13,4 +16,5 @@ data/
 # Dev Misc
 notebooks/.ipynb_checkpoints
 src/__pycache__/
+.DS_Store
 
