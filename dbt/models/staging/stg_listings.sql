@@ -23,6 +23,7 @@ WITH source AS (
         total_host_lis                          AS total_host_listings,
         availability_365,
         city                                    AS listing_city,
+        UPPER(REGEXP_REPLACE(city,' ',''))      AS standard_city,
         scrape_date
 
     FROM source

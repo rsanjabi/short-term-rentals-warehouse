@@ -8,6 +8,7 @@ WITH source AS (
     SELECT
         geonameid                               AS geoname_id,
         asciiname                               AS pop_city,
+        UPPER(REGEXP_REPLACE(asciiname,' ','')) AS standard_city,
         country_code,
         alternatenames,
         latitude,
@@ -17,6 +18,9 @@ WITH source AS (
         timezone,
         modification_date
     FROM source
+    WHERE
+        population IS NOT NULL AND
+        country_code IS NOT NULL
 
 )
 

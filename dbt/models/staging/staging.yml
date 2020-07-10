@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: base_costs
+  - name: stg_costs
     columns:
       - name: rank
         tests:
@@ -13,10 +13,12 @@ models:
       - name: rent_idx
         tests:
           - not_null
+      - name: costs_city
+        tests:
+          - not_null
       - name: city_country
         tests:
           - unique
-          - not_null
   - name: stg_population
     columns:
       - name: pop_city
@@ -30,7 +32,7 @@ models:
           - not_null
   - name: stg_listings
     columns:
-      - name: reviews_per_month
+      - name: listing_city
         tests:
           - not_null
       - name: room_type

@@ -13,7 +13,10 @@ WITH source AS (
         groceries_idx,
         restaurant_idx,
         purch_power_idx,
-        city                        as city_country
+        SPLIT_PART(city, ',', 1)                    AS  costs_city,
+        SPLIT_PART(city, ',', -1)                   AS  costs_country,
+        UPPER(REGEXP_REPLACE(costs_city,' ',''))    AS  standard_city,
+        city                                        AS  city_country
     FROM source
 
 )
