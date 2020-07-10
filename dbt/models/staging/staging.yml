@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: base_costs
+    columns:
+      - name: rank
+        tests:
+          - unique
+          - not_null
+      - name: living_idx
+        tests:
+          - not_null
+      - name: rent_idx
+        tests:
+          - not_null
+      - name: city_country
+        tests:
+          - unique
+          - not_null
+  - name: stg_population
+    columns:
+      - name: pop_city
+        tests:
+          - not_null
+      - name: population
+        tests:
+          - not_null
+      - name: country_code
+        tests:
+          - not_null
+  - name: stg_listings
+    columns:
+      - name: reviews_per_month
+        tests:
+          - not_null
+      - name: room_type
+        tests:
+          - accepted_values:
+              values: ['Entire home/apt', 'Private room', 'Shared room', 'Hotel room']
