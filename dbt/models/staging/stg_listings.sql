@@ -12,8 +12,8 @@ WITH source AS (
         host_name,
         neighborhood_group,
         neighborhood,
-        latitude,
-        longitude,
+        latitude                                AS listing_lat,
+        longitude                               AS listing_long,
         roomt_type                              AS room_type,
         price,
         min_nights,
@@ -24,7 +24,7 @@ WITH source AS (
         availability_365,
         city                                    AS listing_city,
         UPPER(REGEXP_REPLACE(city,' ',''))      AS standard_city,
-        scrape_date
+        scrape_date                             AS listing_report_date
 
     FROM source
 

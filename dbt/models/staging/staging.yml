@@ -2,8 +2,10 @@ version: 2
 
 models:
   - name: stg_costs
+    description: This model cleans up cost of living data.
     columns:
-      - name: rank
+      - name: cost_rank
+        description: The ranking that the source gives each city from most expensive to least.
         tests:
           - unique
           - not_null
@@ -13,15 +15,16 @@ models:
       - name: rent_idx
         tests:
           - not_null
-      - name: costs_city
+      - name: costs_city_name
         tests:
           - not_null
-      - name: city_country
+      - name: city_country_name
         tests:
           - unique
   - name: stg_population
+    description: This model cleans up city population data.
     columns:
-      - name: pop_city
+      - name: pop_city_name
         tests:
           - not_null
       - name: population
@@ -31,6 +34,7 @@ models:
         tests:
           - not_null
   - name: stg_listings
+    description: This model cleans up Airbnb listing data.
     columns:
       - name: listing_city
         tests:

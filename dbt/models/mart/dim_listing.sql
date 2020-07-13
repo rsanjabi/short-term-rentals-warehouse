@@ -1,26 +1,28 @@
-WITH listings AS (
-
-    select * from {{ ref('stg_listings')
-
+WITH l1 AS (
+    select * from {{ ref('all_available_listings') }}
 ),
 
-city AS (
-
-    select * from dim_city
-
+l2 AS (
+    select * from {{ ref('all_available_listings') }}
 ),
 
-intermediate AS (
-
+most_recent_listing_info AS (
     SELECT 
-        standard_city,
-        listing_id,
-        scrape_date
-    FROM listings
-    INNER JOIN 
-            city
-    USING (standard_city)
-
+        l1.listing_id,
+        l1.listing_name,
+        l1.host_name,
+        l1.host_id,
+        l1.standard_city,
+        l1.neighborhood_group,
+        l1.neighborhood,
+        l1.listing_lat,
+        l1.listing_long,
+        l1.room_type
+    FROM l1
+    LEFT OUTER JOIN l2
+      ON (l1.listing_id = l2.listing_id AND
+          l1.listing_report_date > l2.listing_report_date)
+    WHERE l2.listing_id IS NULL
 )
 
-select * from intermediate
+select * from most_recent_listing_info

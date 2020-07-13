@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: dim_city
+    description: This dimension holds data relevant to specific cities.
+    columns:
+      - name: standard_city
+        tests:
+          - unique
+          - not_null
+  - name: dim_listing
+    description: This dimension holds data relevant to a specific listing. The data is unlikely to change over time.
+    columns:
+      - name: listing_id
+        tests:
+          - not_null
+          - unique
+  - name: fct_listing_snapshot
+    description: This fact table models the listing for a given month, and assicated monthly data.
+    columns:
+      - name: listing_snapshot_key
+        tests:
+          - unique
+          - not_null
+
