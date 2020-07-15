@@ -1,7 +1,7 @@
 WITH raw_costs AS (
 
     SELECT *
-    FROM loading.raw_costs
+    FROM raw.loading.raw_costs
 
 ),
 

@@ -1,7 +1,7 @@
 WITH source AS (
 
     SELECT *
-    FROM loading.raw_listings
+    FROM raw.loading.raw_listings
 
 ), intermediate AS (
 

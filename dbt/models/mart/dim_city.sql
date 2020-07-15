@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH pop_cities AS (
 
     select * from {{ ref('stg_population') }}

@@ -4,6 +4,6 @@ models:
   - name: analytics_flagged
     description: This dimension holds pre-calcuated values for the fct_listing_snapshot table.
     columns:
-      - name: listing_id
+      - name: listing_snapshot_key
         tests:
           - not_null

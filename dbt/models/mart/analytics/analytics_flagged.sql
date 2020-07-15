@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH all_listings AS (
     SELECT * from {{ ref('all_available_listings') }}
 ),

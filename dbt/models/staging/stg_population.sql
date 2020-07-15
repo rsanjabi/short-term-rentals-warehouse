@@ -1,7 +1,7 @@
 WITH source AS (
 
     SELECT *
-    FROM loading.raw_population
+    FROM raw.loading.raw_population
 
 ), intermediate AS (
 

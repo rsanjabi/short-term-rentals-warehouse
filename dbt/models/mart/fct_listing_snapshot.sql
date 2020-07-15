@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 SELECT 
     {{ dbt_utils.surrogate_key(['listing_id', 'listing_report_date']) }} as listing_snapshot_key,
     listing_id,

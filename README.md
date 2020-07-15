@@ -34,4 +34,4 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 6. To load data run `python src/load.py`.
 
 ## Author:
-A personal data warehouse project by Rebecca Sanjabi.
+A personal project by Rebecca Sanjabi.
