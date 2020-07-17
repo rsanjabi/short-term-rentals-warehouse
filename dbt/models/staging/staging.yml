@@ -44,17 +44,11 @@ sources:
               - not_null
       - name: raw_population
         columns:
-          - name: geonameid
-            description: Unique id
+          - name: name
+            description: City Name
             tests:
-              - unique
               - not_null
       - name: raw_listings
-        tests:
-          - dbt_utils.unique_combination_of_columns:
-              combination_of_columns:
-                - id
-                - scrape_date
         columns:
           - name: id
             description: Airbnb's listing ID
@@ -97,6 +91,12 @@ models:
   - name: stg_listings
     description: This model cleans up Airbnb listing data.
     columns:
+      - name: listing_id
+        tests:
+          - not_null
+      - name: listing_report_date
+        tests:
+          - not_null
       - name: listing_city
         tests:
           - not_null
