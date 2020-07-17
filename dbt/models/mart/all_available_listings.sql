@@ -1,38 +1,40 @@
 {{ config(materialized='table') }}
 
-WITH all_listings AS (
-    select * from {{ ref('stg_listings') }}
+WITH listings AS (
+    SELECT * FROM {{ ref('stg_listings') }}
 ),
 
 avail_cities AS (
-    select * from {{ ref('dim_city') }}
+    SELECT * FROM {{ ref('dim_city') }}
 ),
 
 avail_listings AS (
     SELECT 
-        all_listings.listing_id,
-        all_listings.listing_name,
-        all_listings.host_id,
-        all_listings.host_name,
-        all_listings.neighborhood_group,
-        all_listings.neighborhood,
-        all_listings.listing_lat,
-        all_listings.listing_long,
-        all_listings.room_type,
-        all_listings.price,
-        all_listings.min_nights,
-        all_listings.number_of_reviews,
-        all_listings.last_review,
-        all_listings.reviews_per_month,
-        all_listings.total_host_listings,
-        all_listings.availability_365,
-        all_listings.listing_city,
-        all_listings.standard_city,
-        all_listings.listing_report_date
-    FROM all_listings
-    INNER JOIN 
-            avail_cities
+        {{ dbt_utils.surrogate_key(
+            ['listings.listing_id',
+             'listings.listing_report_date']) }}                AS listing_snapshot_key,
+        listings.listing_id,
+        listings.listing_name,
+        listings.host_id,
+        listings.host_name,
+        listings.neighborhood_group,
+        listings.neighborhood,
+        listings.listing_lat,
+        listings.listing_long,
+        listings.room_type,
+        listings.price,
+        listings.min_nights,
+        listings.number_of_reviews,
+        listings.last_review,
+        listings.reviews_per_month,
+        listings.total_host_listings,
+        listings.availability_365,
+        listings.listing_city,
+        listings.standard_city,
+        listings.listing_report_date
+    FROM listings
+    INNER JOIN avail_cities
     USING (standard_city)
 )
 
-SELECT * from avail_listings
+SELECT * FROM avail_listings

@@ -9,8 +9,7 @@ cost_cities AS (
 ),
 
 no_pop_dupes AS (
-
-    SELECT 
+    SELECT
         standard_city,
         geoname_id,
         pop_city_name,
@@ -24,20 +23,18 @@ no_pop_dupes AS (
         pop_mod_date
 
     FROM pop_cities
-    INNER JOIN 
-            (
-            SELECT 
-                standard_city
-            FROM pop_cities
-            GROUP BY standard_city
-            HAVING count(*) = 1
-            )
+    INNER JOIN (
+        SELECT
+            standard_city
+        FROM pop_cities
+        GROUP BY standard_city
+        HAVING count(*) = 1
+    )
     USING (standard_city)
 ),
 
 no_city_dupes AS (
-
-    SELECT 
+    SELECT
         standard_city,
         cost_rank,
         living_idx,
@@ -51,19 +48,17 @@ no_city_dupes AS (
         city_country_name
 
     FROM cost_cities
-    INNER JOIN 
-            (
-            SELECT 
-                standard_city
-            FROM cost_cities
-            GROUP BY standard_city
-            HAVING count(*) = 1
-            )
+    INNER JOIN (
+        SELECT
+            standard_city
+        FROM cost_cities
+        GROUP BY standard_city
+        HAVING count(*) = 1
+    )
     USING (standard_city)
 ),
 
 cities AS (
-    
     SELECT
         standard_city,
         cost_rank,
@@ -89,7 +84,7 @@ cities AS (
 
     FROM no_city_dupes
     INNER JOIN no_pop_dupes
-    USING (standard_city)
+        USING (standard_city)
 )
 
 SELECT * FROM cities

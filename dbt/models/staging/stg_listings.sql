@@ -1,12 +1,11 @@
-WITH source AS (
-    SELECT *
-    FROM raw.loading.raw_listings
+WITH listings AS (
+    SELECT * FROM {{ source('raw_data', 'raw_listings') }}
 ),
 
 intermediate AS (
     SELECT
-        id                                      AS listing_id,
-        name                                    AS listing_name,
+        id                                          AS listing_id,
+        name                                        AS listing_name,
         host_id,
         host_name,
         neighborhood_group,
@@ -25,8 +24,7 @@ intermediate AS (
         UPPER(REGEXP_REPLACE(city, ' ', ''))        AS standard_city,
         scrape_date                                 AS listing_report_date
 
-    FROM source
+    FROM listings
 )
 
-SELECT *
-FROM intermediate
+SELECT * FROM intermediate

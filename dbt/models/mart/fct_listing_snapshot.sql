@@ -1,12 +1,13 @@
 {{ config(materialized='table') }}
 
 WITH listings AS (
-    SELECT * from {{ ref('all_available_listings') }}
+    SELECT * FROM {{ ref('all_available_listings') }}
 ),
 
 fact_snapshot AS (
     SELECT 
-        {{ dbt_utils.surrogate_key(['listing_id', 'listing_report_date']) }} as listing_snapshot_key,
+        {{ dbt_utils.surrogate_key(
+            ['listing_id', 'listing_report_date']) }} AS listing_snapshot_key,
         listing_id,
         listing_report_date,
         standard_city,
@@ -20,4 +21,4 @@ fact_snapshot AS (
     FROM listings
 )
 
-select * from fact_snapshot
+SELECT * FROM fact_snapshot

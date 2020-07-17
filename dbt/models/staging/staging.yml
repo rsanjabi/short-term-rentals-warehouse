@@ -1,5 +1,66 @@
 version: 2
 
+sources:
+  - name: raw_data
+    description: Loaded CSV files
+    database: raw
+    schema: loading
+    tables:
+      - name: raw_costs
+        columns:
+          - name: rank
+            description: Unique ranking value based on cost of living
+            tests:
+              - unique
+              - not_null
+          - name: city
+            description: City and country name
+            tests:
+              - unique
+              - not_null
+          - name: living_idx
+            description: Cost of living index
+            tests:
+              - not_null
+          - name: rent_idx
+            description: Cost of rent index
+            tests:
+              - not_null
+          - name: living_rent_idx
+            description: Cost of living and rent index
+            tests:
+              - not_null
+          - name: groceries_idx
+            description: Cost of groceries index
+            tests:
+              - not_null
+          - name: restaurant_idx
+            description: Cost of restaurant's index
+            tests:
+              - not_null
+          - name: purch_power_idx
+            description: Total purchasing power index
+            tests:
+              - not_null
+      - name: raw_population
+        columns:
+          - name: geonameid
+            description: Unique id
+            tests:
+              - unique
+              - not_null
+      - name: raw_listings
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - id
+                - scrape_date
+        columns:
+          - name: id
+            description: Airbnb's listing ID
+            tests:
+              - not_null
+
 models:
   - name: stg_costs
     description: This model cleans up cost of living data.

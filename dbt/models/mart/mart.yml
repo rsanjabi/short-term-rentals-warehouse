@@ -22,3 +22,13 @@ models:
         tests:
           - unique
           - not_null
+  - name: all_available_listings
+    description: This fact table models the listing for a given month, and associated monthly data.
+    columns:
+      - name: listing_snapshot_key
+        tests:
+          - unique
+          - not_null
+      - name: availability_365
+        tests:
+          

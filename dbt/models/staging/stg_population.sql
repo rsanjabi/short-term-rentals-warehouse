@@ -1,6 +1,5 @@
-WITH source AS (
-    SELECT *
-    FROM raw.loading.raw_population
+WITH cities AS (
+    SELECT * FROM {{ source('raw_data', 'raw_population') }}
 ),
 
 intermediate AS (
@@ -16,11 +15,10 @@ intermediate AS (
         elevation,
         timezone,
         modification_date                           AS pop_mod_date
-    FROM source
+    FROM cities
     WHERE
-        population IS NOT NULL AND
-        country_code IS NOT NULL
+        population IS NOT NULL
+        AND country_code IS NOT NULL
 )
 
-SELECT *
-FROM intermediate
+SELECT * FROM intermediate
