@@ -16,10 +16,9 @@ models:
           - not_null
           - unique
   - name: fct_listing_snapshot
-    description: This fact table models the listing for a given month, and assicated monthly data.
+    description: This fact table models the listing for a given month, and associated monthly data.
     columns:
       - name: listing_snapshot_key
         tests:
           - unique
           - not_null
-

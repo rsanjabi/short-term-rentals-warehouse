@@ -1,10 +1,6 @@
 {{ config(materialized='table') }}
 
-WITH l1 AS (
-    select * from {{ ref('all_available_listings') }}
-),
-
-l2 AS (
+WITH listings AS (
     select * from {{ ref('all_available_listings') }}
 ),
 
@@ -20,8 +16,8 @@ most_recent_listing_info AS (
         l1.listing_lat,
         l1.listing_long,
         l1.room_type
-    FROM l1
-    LEFT OUTER JOIN l2
+    FROM listings l1
+    LEFT OUTER JOIN listings l2
       ON (l1.listing_id = l2.listing_id AND
           l1.listing_report_date > l2.listing_report_date)
     WHERE l2.listing_id IS NULL

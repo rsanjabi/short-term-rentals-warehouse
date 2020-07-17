@@ -1,12 +1,9 @@
 WITH raw_costs AS (
-
     SELECT *
     FROM raw.loading.raw_costs
-
 ),
 
 intermediate AS (
-
     SELECT
         rank                                        AS cost_rank,
         living_idx,
@@ -20,7 +17,6 @@ intermediate AS (
         UPPER(REGEXP_REPLACE(costs_city_name, ' ', ''))   AS  standard_city,
         city                                            AS  city_country_name
     FROM raw_costs
-
 )
 
 SELECT *
