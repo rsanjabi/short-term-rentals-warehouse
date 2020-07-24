@@ -1,0 +1,106 @@
+version: 2
+
+sources:
+  - name: raw_data
+    description: Loaded CSV files
+    database: raw
+    schema: loading
+    tables:
+      - name: raw_costs
+        columns:
+          - name: rank
+            description: Unique ranking value based on cost of living
+            tests:
+              - unique
+              - not_null
+          - name: city
+            description: City and country name
+            tests:
+              - unique
+              - not_null
+          - name: living_idx
+            description: Cost of living index
+            tests:
+              - not_null
+          - name: rent_idx
+            description: Cost of rent index
+            tests:
+              - not_null
+          - name: living_rent_idx
+            description: Cost of living and rent index
+            tests:
+              - not_null
+          - name: groceries_idx
+            description: Cost of groceries index
+            tests:
+              - not_null
+          - name: restaurant_idx
+            description: Cost of restaurant's index
+            tests:
+              - not_null
+          - name: purch_power_idx
+            description: Total purchasing power index
+            tests:
+              - not_null
+      - name: raw_population
+        columns:
+          - name: name
+            description: City Name
+            tests:
+              - not_null
+      - name: raw_listings
+        columns:
+          - name: id
+            description: Airbnb's listing ID
+            tests:
+              - not_null
+
+models:
+  - name: stg_costs
+    description: This model cleans up cost of living data.
+    columns:
+      - name: cost_rank
+        description: The ranking that the source gives each city from most expensive to least.
+        tests:
+          - unique
+          - not_null
+      - name: living_idx
+        tests:
+          - not_null
+      - name: rent_idx
+        tests:
+          - not_null
+      - name: costs_city_name
+        tests:
+          - not_null
+      - name: city_country_name
+        tests:
+          - unique
+  - name: stg_population
+    description: This model cleans up city population data.
+    columns:
+      - name: pop_city_name
+        tests:
+          - not_null
+      - name: population
+        tests:
+          - not_null
+      - name: country_code
+        tests:
+          - not_null
+  - name: stg_listings
+    description: This model cleans up Airbnb listing data.
+    columns:
+      - name: listing_id
+        tests:
+          - not_null
+      - name: listing_report_date
+        tests:
+          - not_null
+      - name: listing_city
+        tests:
+          - not_null
+      - name: room_type
+        tests:
+          - accepted_values:
+              values: ['Entire home/apt', 'Private room', 'Shared room', 'Hotel room']

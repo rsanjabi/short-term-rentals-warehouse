@@ -74,7 +74,8 @@ def load_listings(ctx):
             )
             cs.execute(sql)
     except Exception as e:
-        print(f"Error loading listings: {e}")
+        print("Error loading listings.")
+        raise e
     finally:
         cs.close()
     return
@@ -115,7 +116,8 @@ def load_cost_living(ctx):
         cs.execute("copy into raw_costs from @stg_costs;")
 
     except Exception as e:
-        print(f"Error loading {file_loc}: {e}")
+        print("Error loading cost of living data.")
+        raise e
     finally:
         cs.close()
     return
@@ -171,7 +173,8 @@ def load_population(ctx):
         cs.execute(cp_sql)
 
     except Exception as e:
-        print(f"Error loading {file_loc}: {e}")
+        print("Error loading population file.")
+        raise e
     finally:
         cs.close()
     return
@@ -187,18 +190,19 @@ def init_db():
     cs = ctx.cursor()
 
     try:
-        cs.execute("CREATE DATABASE IF NOT EXISTS sm_project;")
-        wh_sql = '''CREATE WAREHOUSE IF NOT EXISTS sm_warehouse WITH
+        cs.execute("CREATE DATABASE IF NOT EXISTS raw;")
+        wh_sql = '''CREATE WAREHOUSE IF NOT EXISTS loading WITH
                     WAREHOUSE_SIZE = 'XSMALL' WAREHOUSE_TYPE = 'STANDARD'
                     AUTO_SUSPEND = 300 AUTO_RESUME = TRUE;
                     '''
         cs.execute(wh_sql)
-        cs.execute("USE ROLE sysadmin;")
-        cs.execute("USE WAREHOUSE sm_warehouse;")
-        cs.execute("USE DATABASE sm_project;")
-        cs.execute("USE SCHEMA public;")
+        cs.execute("USE ROLE loader;")
+        cs.execute("USE WAREHOUSE loading;")
+        cs.execute("USE DATABASE raw;")
+        cs.execute("USE SCHEMA loading;")
     except Exception as e:
-        print(f"Error establishing db: {e}")
+        print("Error establishing db.")
+        raise e
     finally:
         cs.close()
         return ctx
@@ -220,4 +224,4 @@ if __name__ == "__main__":
     start = time.perf_counter()
     load_db()
     end = time.perf_counter()
-    print(f"Completed loading datasets in {end-start:.2f} seconds.")
+    print(f"Completed loading attempts in {end-start:.2f} seconds.")
