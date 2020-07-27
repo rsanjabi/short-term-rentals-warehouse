@@ -67,7 +67,6 @@ cities_with_counts AS (
         ON filtered.standard_city = all_list.standard_city
     LEFT JOIN dim_city
         ON filtered.standard_city = dim_city.standard_city
-    ORDER BY 5
 
 )
 

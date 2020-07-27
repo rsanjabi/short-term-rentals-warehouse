@@ -25,8 +25,8 @@ filtered_listings AS (
         recent.listing_id,
         recent.standard_city
     FROM recent_listings       AS recent
-    INNER JOIN analytics_flagged    AS flag
-        ON recent.listing_snapshot_key = flag.listing_snapshot_key
+    INNER JOIN analytics_flagged
+        ON recent.listing_snapshot_key = analytics_flagged.listing_snapshot_key
     WHERE 1 = 1
         [[AND {{FREQ_BOOK_FLAG}}]]
         [[AND {{HOME_FLAG}}]]
