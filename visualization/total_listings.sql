@@ -1,6 +1,6 @@
 -- Total Listings
 
-WITH most_recent_listings AS (
+WITH recent_listings AS (
 
     -- Self join for only latest listing info gathered in the last year
     SELECT
@@ -19,7 +19,7 @@ filtered_listings AS (
 
     SELECT
         recent.standard_city
-    FROM most_recent_listings   AS recent
+    FROM recent_listings   AS recent
     JOIN analytics_flagged      AS flag
         ON recent.listing_snapshot_key = flag.listing_snapshot_key
     WHERE 1 = 1
