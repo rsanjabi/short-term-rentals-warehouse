@@ -57,9 +57,8 @@ cities_with_counts AS (
 
     SELECT
         filtered.standard_city,
-        dim_city.purch_power_idx,
-        filtered.flagged_list_count,
-        all_list.all_list_count,
+        -- round to fix x-axis label issues
+        round(dim_city.purch_power_idx,0) as purch_power,
         round(filtered.flagged_list_count
                 / all_list.all_list_count, 4) AS flagged_to_all_ratio
     FROM filtered_listings_count    AS filtered
@@ -67,7 +66,6 @@ cities_with_counts AS (
         ON filtered.standard_city = all_list.standard_city
     LEFT JOIN dim_city
         ON filtered.standard_city = dim_city.standard_city
-    ORDER BY 5
 
 )
 
