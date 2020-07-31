@@ -1,7 +1,7 @@
 # Global Short-Term Rentals - a Data Warehouse and Dashboard
 
-The global short-term rentals project is a full data pipeline and warehouse. A dashboard allows for the exploration of the impact of short-term rental listings (Airbnb) and its impacts on housing. Data is pulled from three separate public datasets and consists of over 35 million records from 2015-2020. 
-
+The global short-term rentals project is a full data pipeline and warehouse. A dashboard allows for the exploration of the impact of short-term rental listings (Airbnb) on housing. Data is pulled from three separate public datasets and consists of over 35 million records from 2015-2020. 
+![Dashboard](img/dashboard.png)
 ## Architecture:
 ### Overview
 * Python scripts perform API calls and web scraping for extraction and loading.
@@ -34,19 +34,18 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 4. Run `python setup.py` to export credentials and other environment variables.
 
 ### Extract, load, and transform data:
-1. To extract datasets (scraping and API calls), run `python src/extract.py`. The script may take a few hours.
-2. To load data, run `python src/load.py`. Again, depending on your connection, will take awhile.
-3. To transform data, run `dbt run`.
-4. To test your data, run `dbt test`.
-5. To generate documentation, run `dbt docs generate`, and `dbt docs serve` for locally hosted documentation.
+1. Setup users, databases, and warehouses on Snowflake. Use `src/create_warehouse.sql` as a guide.
+2. To extract datasets (scraping and API calls), run `python src/extract.py`. The script may take a few hours.
+3. To load data, run `python src/load.py`. Again, depending on your connection, will take awhile.
+4. To transform data, run `dbt run`.
+5. To test your data, run `dbt test`.
+6. To generate documentation, run `dbt docs generate`, and `dbt docs serve` for locally hosted documentation.
 
 ### Visualization:
-1.
-2.
-
-### Notes:
-1. Future directions
-2.
+1. Download and install [Metabase](https://www.metabase.com/start/) on the platform of your choice (I used Heroku).
+2. Follow setup instructions for an admin user and add your Snowflake credentials.
+3. Create a new dashboard.
+4. Create questions for each card based on the files in `visualizations/`, adjusting the visualization component.
 
 ## Author:
 A personal project by Rebecca Sanjabi.
