@@ -1,5 +1,6 @@
 # Dev Tools
 .vscode/
+notebooks/
 
 # Too big
 data/
@@ -17,4 +18,7 @@ dbt/logs/
 notebooks/.ipynb_checkpoints
 src/__pycache__/
 .DS_Store
+
+# Environmental Variables
+.env
 

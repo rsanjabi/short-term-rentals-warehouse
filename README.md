@@ -5,8 +5,8 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 ## Architecture:
 ### Overview
 * Python scripts perform API calls and web scraping for extraction and loading.
-* Snowflake is the cloud-based data warehouse.
-* DBT is used for transformations.
+* Snowflake is used as a cloud-based data warehouse.
+* DBT is used for transformations, data testing, and data documentation.
 * X used for data visualizations.
 
 ### Data Sources
@@ -16,22 +16,37 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
   - [World Cities Population and Location](https://www.kaggle.com/i2i2i2/cities-of-the-world). CC0: Public Domain.
   - Kaggle [Cost of Living Indices](https://www.kaggle.com/debdutta/cost-of-living-index-by-country). Original source [Numbeo](https://www.numbeo.com/cost-of-living/rankings.jsp)
 
-### ETL Pipeline
-### Data Modeling
+### ETL and Data Model
+![Data Flow and Star Schema](img/data_flow.png)
+### DBT Model DAG
 ![DBT Models Lineage Graph](img/dbt_dag.png)
 ### Visualization
 
 ## Environment Setup:
-### To reproduce the warehouse, you will need to have several cloud-based accounts set up prior to running the installation steps:
-1. You will need to have a Kaggle account and authenticate using an API token. For more information read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
-2. You will need a Snowflake account with privileges. Set environment variables for username, password, and account. `export SNOW_USER=<your user name>`, `export SNOW_PASS=<your password>`, `export SNOW_ACCOUNT=<your Snowflake account>`
+### To reproduce the warehouse, you will need to have these cloud-based accounts set up prior to running the remaining steps:
+1. You will need to have a Kaggle account and authenticate using an API token. For more information, read Kaggle's [API documentation](https://www.kaggle.com/docs/api).
+2. You will need a [Snowflake account](https://trial.snowflake.com/) with sysadmin privileges. They offer a 30-day trial with up to $400 in free usage. This project uses well under that, and no credit card is required until the limits are reached.
 
-## Installation:
-### Scripts to download datasets and setup the warehouse:
+### To setup the warehouse:
 1. Download the repository and create a virtual environment.
 2. Install the required dependencies with `pip install -r requirements.txt`.
-4. To extract datasets (scraping and API calls) run `python src/extract.py`. This may take a few hours.
-6. To load data run `python src/load.py`.
+3. Add `SNOW_USER=<your user name>`, `SNOW_PASS=<your password>`, `SNOW_ACCOUNT=<your Snowflake account>`to a .env file at the root level of the project.
+4. Run `python setup.py`.
+
+### Extract, load, and transform data:
+1. To extract datasets (scraping and API calls), run `python src/extract.py`. The script may take a few hours.
+2. To load data, run `python src/load.py`. Again, depending on your connection, will take awhile.
+3. To transform data, run `dbt run`.
+4. To test your data, run `dbt test`.
+5. To generate documentation, run `dbt docs generate` and `dbt docs serve` for locally hosted documentation.
+
+### Visualization:
+1.
+2.
+
+### Notes:
+1. Future directions
+2.
 
 ## Author:
 A personal project by Rebecca Sanjabi.

@@ -1,0 +1,21 @@
+# Snowflake Short-term-rentals Profile
+# -------------------
+# Move this file or set DBT_PROFILES_DIR in .env.
+# https://docs.getdbt.com/dbt-cli/configure-your-profile
+# -------------------
+
+   short_term_rental_profile:
+     outputs:
+       dev:
+         type: snowflake
+         threads: 4
+         account: "{{ env_var('SNOW_ACCOUNT') }}"
+
+         user: "{{ env_var('SNOW_USER') }}"
+         password: "{{ env_var('SNOW_PASS') }}"
+         role: transformer
+
+         database: ANALYTICS
+         warehouse: TRANSFORMING
+         schema: MODEL
+     target: dev
