@@ -30,15 +30,15 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 ### To setup the warehouse:
 1. Download the repository and create a virtual environment.
 2. Install the required dependencies with `pip install -r requirements.txt`.
-3. Add `SNOW_USER=<your user name>`, `SNOW_PASS=<your password>`, `SNOW_ACCOUNT=<your Snowflake account>`to a .env file at the root level of the project.
-4. Run `python setup.py`.
+3. Copy .env.example to a file called .env at the root level of the project. Add in relevant Snowflake variables.
+4. Run `python setup.py` to export credentials and other environment variables.
 
 ### Extract, load, and transform data:
 1. To extract datasets (scraping and API calls), run `python src/extract.py`. The script may take a few hours.
 2. To load data, run `python src/load.py`. Again, depending on your connection, will take awhile.
 3. To transform data, run `dbt run`.
 4. To test your data, run `dbt test`.
-5. To generate documentation, run `dbt docs generate` and `dbt docs serve` for locally hosted documentation.
+5. To generate documentation, run `dbt docs generate`, and `dbt docs serve` for locally hosted documentation.
 
 ### Visualization:
 1.
