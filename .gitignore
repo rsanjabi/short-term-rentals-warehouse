@@ -1,6 +1,9 @@
 # Dev Tools
 .vscode/
 
+#Environment Variables
+.env
+
 # Too big
 data/
 dbt/target/

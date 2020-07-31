@@ -9,14 +9,13 @@ WITH listings AS (
 ),
 
 cities AS (
-    SELECT
+    SELECT DISTINCT
         dim_city.standard_city,
         dim_city.city_lat,
         dim_city.city_long
     FROM listings
     INNER JOIN dim_city
         ON listings.standard_city = dim_city.standard_city
-    GROUP BY 1, 2, 3
 
 )
 
