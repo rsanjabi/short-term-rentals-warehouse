@@ -196,7 +196,7 @@ def init_db():
                     AUTO_SUSPEND = 300 AUTO_RESUME = TRUE;
                     '''
         cs.execute(wh_sql)
-        cs.execute("USE ROLE loader;")
+        cs.execute("USE ROLE sysadmin;")
         cs.execute("USE WAREHOUSE loading;")
         cs.execute("USE DATABASE raw;")
         cs.execute("USE SCHEMA loading;")

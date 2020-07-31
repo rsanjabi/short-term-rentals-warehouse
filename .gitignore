@@ -1,5 +1,6 @@
 # Dev Tools
 .vscode/
+notebooks/
 
 #Environment Variables
 .env
@@ -20,4 +21,7 @@ dbt/logs/
 notebooks/.ipynb_checkpoints
 src/__pycache__/
 .DS_Store
+
+# Environmental Variables
+.env
 
