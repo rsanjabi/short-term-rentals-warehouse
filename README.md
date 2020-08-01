@@ -37,9 +37,10 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 1. Setup users, databases, and warehouses on Snowflake. Use `src/create_warehouse.sql` as a guide.
 2. To extract datasets (scraping and API calls), run `python src/extract.py`. The script may take a few hours.
 3. To load data, run `python src/load.py`. Again, depending on your connection, will take awhile.
-4. To transform data, run `dbt run`.
-5. To test your data, run `dbt test`.
-6. To generate documentation, run `dbt docs generate`, and `dbt docs serve` for locally hosted documentation.
+4. To install dbt dependencies, from dbt subdirectory run `dbt deps`.
+5. To transform data, from dbt subdirectory run `dbt run`.
+6. To test your data, from dbt subdirectory run `dbt test`.
+7. To generate documentation, from dbt subdirectory run `dbt docs generate`, and `dbt docs serve` for locally hosted documentation.
 
 ### Visualization:
 1. Download and install [Metabase](https://www.metabase.com/start/) on the platform of your choice (I used Heroku).

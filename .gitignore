@@ -22,6 +22,6 @@ notebooks/.ipynb_checkpoints
 src/__pycache__/
 .DS_Store
 
-# Environmental Variables
-.env
+# DBT user files
+.user.yml
 
