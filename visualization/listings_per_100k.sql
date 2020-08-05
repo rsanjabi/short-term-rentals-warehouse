@@ -1,20 +1,17 @@
 -----------------------------------------
 -- Top 10 cities by 100k people listings
 -----------------------------------------
+-----------------------------------------
+-- Top 10 cities by 100k people listings
+-----------------------------------------
 
-WITH recent_listings AS (
+WITH most_recent_listings AS (
 
-    -- Self join for only latest listing info gathered in the last year
-    SELECT
-        l1.listing_id,
-        l1.listing_snapshot_key,
-        l1.standard_city
-    FROM fct_listing_snapshot AS l1
-    LEFT OUTER JOIN fct_listing_snapshot AS l2
-        ON (l1.listing_id = l2.listing_id
-            AND l1.listing_report_date > l2.listing_report_date)
-    WHERE l2.listing_id IS NULL
-        AND l1.listing_report_date > dateadd(month, -12, getdate())
+    SELECT 
+            listing_snapshot_key,
+            listing_id,
+            standard_city
+    FROM analytics_most_recent_listings
 
 ),
 
@@ -24,7 +21,7 @@ filtered_listings AS (
     SELECT
         recent.listing_id,
         recent.standard_city
-    FROM recent_listings       AS recent
+    FROM most_recent_listings       AS recent
     INNER JOIN analytics_flagged
         ON recent.listing_snapshot_key = analytics_flagged.listing_snapshot_key
     WHERE 1 = 1

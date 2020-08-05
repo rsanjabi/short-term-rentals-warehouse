@@ -1,17 +1,10 @@
--- Total Listings
+-----------------------------------
+-- Total filtered listings by city
+-----------------------------------
 
-WITH recent_listings AS (
+WITH most_recent_listings AS (
 
-    -- Self join for only latest listing info gathered in the last year
-    SELECT
-        l1.listing_snapshot_key,
-        l1.standard_city
-    FROM fct_listing_snapshot AS l1
-    LEFT OUTER JOIN fct_listing_snapshot AS l2
-        ON (l1.listing_id = l2.listing_id
-            AND l1.listing_report_date > l2.listing_report_date)
-    WHERE l2.listing_id IS NULL
-        AND l1.listing_report_date > dateadd(month, -12, getdate())
+    SELECT listing_snapshot_key, standard_city FROM ANALYTICS_MOST_RECENT_LISTINGS
 
 ),
 
@@ -19,7 +12,7 @@ filtered_listings AS (
 
     SELECT
         recent.standard_city
-    FROM recent_listings   AS recent
+    FROM most_recent_listings   AS recent
     JOIN analytics_flagged
         ON recent.listing_snapshot_key = analytics_flagged.listing_snapshot_key
     WHERE 1 = 1

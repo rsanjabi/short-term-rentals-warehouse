@@ -7,6 +7,7 @@ most_recent_listings AS (
     SELECT
         listing_id,
         listing_snapshot_key,
+        standard_city,
         price,
         min_nights
     FROM all_listings

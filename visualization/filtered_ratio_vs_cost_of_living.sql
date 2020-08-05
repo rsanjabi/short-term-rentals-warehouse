@@ -1,21 +1,8 @@
 ------------------------------------------
--- Filtered to All vs Purchasing Power
+-- Filtered to All vs Cost of Living
 ------------------------------------------
-
 WITH recent_listings AS (
-
-    -- Self join for only latest listing info gathered in the last year
-    SELECT
-        l1.listing_snapshot_key,
-        l1.standard_city,
-        l1.listing_id
-    FROM fct_listing_snapshot AS l1
-    LEFT OUTER JOIN fct_listing_snapshot AS l2
-        ON (l1.listing_id = l2.listing_id
-            AND l1.listing_report_date > l2.listing_report_date)
-    WHERE l2.listing_id IS NULL
-        AND l1.listing_report_date > dateadd(month, -12, getdate())
-
+    SELECT * FROM analytics_most_recent_listings
 ),
 
 all_listings_count AS (
@@ -57,10 +44,9 @@ cities_with_counts AS (
 
     SELECT
         filtered.standard_city,
-        -- round to fix x-axis label issues
-        round(dim_city.purch_power_idx,0) as purch_power,
+        dim_city.living_idx as cost_of_living,
         round(filtered.flagged_list_count
-                / all_list.all_list_count, 4) AS flagged_to_all_ratio
+                / all_list.all_list_count, 3) AS flagged_to_all_ratio
     FROM filtered_listings_count    AS filtered
     LEFT JOIN all_listings_count    AS all_list
         ON filtered.standard_city = all_list.standard_city
