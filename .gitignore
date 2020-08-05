@@ -1,6 +1,6 @@
 # Dev Tools
 .vscode/
-notebooks/
+notebooks
 
 #Environment Variables
 .env

@@ -1,7 +1,8 @@
 # Global Short-Term Rentals - a Data Warehouse and Dashboard
 
 The global short-term rentals project is a full data pipeline and warehouse. A dashboard allows for the exploration of the impact of short-term rental listings (Airbnb) on housing. Data is pulled from three separate public datasets and consists of over 35 million records from 2015-2020. 
-![Dashboard](img/dashboard.png)
+![Dashboard](img/dashboard1.png)
+[![Demo Video](img/strd-demo.png)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Dashboard Demo")
 ## Architecture:
 ### Overview
 * Python scripts perform API calls and web scraping for extraction and loading.
@@ -31,7 +32,7 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 1. Download the repository and create a virtual environment.
 2. Install the required dependencies with `pip install -r requirements.txt`.
 3. Copy .env.example to a file called .env at the root level of the project. Add in relevant Snowflake and dbt environment variables.
-4. If using a bash shell, run `set -o allexport; source .env; set +o allexport` to export credentials and other environment variables. You'll need to make adjustments on Windows machine.
+4. If using a bash shell, run `set -o allexport; source .env; set +o allexport` to export credentials and other environment variables. You'll need to make adjustments on a Windows machine.
 
 ### Extract, load, and transform data:
 1. Setup users, databases, and warehouses on Snowflake. Use `src/create_warehouse.sql` as a guide.
