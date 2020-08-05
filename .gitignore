@@ -1,6 +1,5 @@
 # Dev Tools
 .vscode/
-notebooks
 
 #Environment Variables
 .env
@@ -20,7 +19,6 @@ dbt/target
 .mypy_cache/
 
 # Dev Misc
-notebooks/.ipynb_checkpoints
 src/__pycache__/
 .DS_Store
 
