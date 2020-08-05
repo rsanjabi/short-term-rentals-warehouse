@@ -1,6 +1,7 @@
 # Snowflake Short-term-rentals Profile
 # -------------------
-# Move this file or set DBT_PROFILES_DIR in .env.
+# Move this file to desired location and
+# set DBT_PROFILES_DIR in .env. For more info:
 # https://docs.getdbt.com/dbt-cli/configure-your-profile
 # -------------------
 
