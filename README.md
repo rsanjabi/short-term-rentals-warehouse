@@ -2,7 +2,9 @@
 
 The global short-term rentals project is a full data pipeline and warehouse. A dashboard allows for the exploration of the impact of short-term rental listings (Airbnb) on housing. Data is pulled from three separate public datasets and consists of over 35 million records from 2015-2020. 
 ![Dashboard](img/dashboard1.png)
-[![Demo Video](img/strd-demo.png)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Dashboard Demo")
+[![Demo Video](img/dash-demo-still.png)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Dashboard Demo")
+[![Demo Video2](img/strd-demo.gif)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Dashboard Demo2")
+
 ## Architecture:
 ### Overview
 * Python scripts perform API calls and web scraping for extraction and loading.
