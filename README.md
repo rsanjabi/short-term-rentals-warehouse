@@ -1,16 +1,15 @@
 # Global Short-Term Rentals - a Data Warehouse and Dashboard
 
 The global short-term rentals project is a full data pipeline and warehouse. A dashboard allows for the exploration of the impact of short-term rental listings (Airbnb) on housing. Data is pulled from three separate public datasets and consists of over 35 million records from 2015-2020. 
-![Dashboard](img/dashboard1.png)
-[![Demo Video](img/dash-demo-still.png)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Dashboard Demo")
-[![Demo Video2](img/strd-demo.gif)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Dashboard Demo2")
+
+[![Demo Video2](img/strd-demo.gif)](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01 "Open Demo Video")
 
 ## Architecture:
 ### Overview
 * Python scripts perform API calls and web scraping for extraction and loading.
 * Snowflake is used as a cloud-based data warehouse.
 * DBT is used for transformations, data testing, and data documentation.
-* X used for data visualizations.
+* Metabase hosted on Heroku is used for data visualizations.
 
 ### Data Sources
 * Scraped data from:
@@ -24,6 +23,14 @@ The global short-term rentals project is a full data pipeline and warehouse. A d
 ### DBT Model DAG
 ![DBT Models Lineage Graph](img/dbt_dag.png)
 ### Visualization
+A [working dashboard](http://short-term-rentals.herokuapp.com/public/dashboard/3b82055e-767c-4203-9715-3765e9b72ca7) is available from a Metabase server hosted on Heroku.
+
+A [video demonstration](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01) is also available.
+
+Screen shots:
+
+![Dashboard 1](img/dashboard1.png)
+![Dashboard 2](img/dashboard2.png)
 
 ## Environment Setup:
 ### To reproduce the warehouse, you will need to have these cloud-based accounts set up prior to running the remaining steps:
