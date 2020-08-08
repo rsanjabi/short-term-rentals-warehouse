@@ -9,6 +9,7 @@ cost_cities AS (
 ),
 
 no_pop_dupes AS (
+    -- Take the city with biggest population
     SELECT
         standard_city,
         geoname_id,
@@ -23,17 +24,12 @@ no_pop_dupes AS (
         pop_mod_date
 
     FROM pop_cities
-    INNER JOIN (
-        SELECT
-            standard_city
-        FROM pop_cities
-        GROUP BY standard_city
-        HAVING count(*) = 1
-    )
-    USING (standard_city)
+    QUALIFY RANK() OVER (PARTITION BY standard_city
+                        ORDER BY population desc) = 1
 ),
 
 no_city_dupes AS (
+    -- Take the city with highest rent
     SELECT
         standard_city,
         cost_rank,
@@ -48,14 +44,10 @@ no_city_dupes AS (
         city_country_name
 
     FROM cost_cities
-    INNER JOIN (
-        SELECT
-            standard_city
-        FROM cost_cities
-        GROUP BY standard_city
-        HAVING count(*) = 1
-    )
-    USING (standard_city)
+    -- These cities are exception to the rule. Remove from listings.
+    WHERE not (standard_city = 'GENEVA' or standard_city = 'CAMBRIDGE' or standard_city = 'VALENCIA')
+    QUALIFY RANK() OVER (PARTITION BY standard_city
+                        ORDER BY rent_idx asc) = 1
 ),
 
 cities AS (
