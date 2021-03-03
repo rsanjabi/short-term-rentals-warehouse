@@ -29,9 +29,8 @@ DBT was used for the transformation layer. DBT allows for automated analytics to
 
 ![DBT Models Lineage Graph](img/dbt_dag.png)
 ### Visualization
-A [working dashboard](http://short-term-rentals.herokuapp.com/public/dashboard/3b82055e-767c-4203-9715-3765e9b72ca7) is available from a Metabase server hosted on Heroku.
 
-A [video demonstration](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01) is also available.
+A [video demonstration](https://www.loom.com/share/bb3c33b3096a46a285060986ff87cb01) is available.
 
 Screen shots:
 
