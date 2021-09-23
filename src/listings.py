@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """ Scrapes airbnb listings for US cities from
     http://insideairbnb.com/get-the-data.html
 """
@@ -13,7 +14,7 @@ import os
 # Replace with relevant header details
 HTTP_HEADER = "{'User-Agent':'Cities Project; rebecca.sanjabi@gmail.com'}"
 URL = "http://insideairbnb.com/get-the-data.html"
-SCOPE = 'ALL'
+SCOPE = "ALL"
 
 
 def get_all(soup):
@@ -31,15 +32,15 @@ def get_all(soup):
     cities = soup.find_all("h2")
     for h2_elem in cities:
         city_soup = h2_elem.next_sibling.next_sibling.next_sibling.next_sibling
-        for table_elements in city_soup.find_all('tr'):
-            elements = table_elements.find_all('td')
+        for table_elements in city_soup.find_all("tr"):
+            elements = table_elements.find_all("td")
             if len(elements) != 0:
-                if elements[2].text == 'listings.csv':
+                if elements[2].text == "listings.csv":
                     e = elements[1].text
                     city = e.replace(",", "").replace(" ", "").replace(".", "")
                     date = elements[0].text.replace(",", "").replace(" ", "")
                     filename = city + "_" + date + ".csv"
-                    download_file = elements[2].a.get('href')
+                    download_file = elements[2].a.get("href")
                     yield filename, download_file
 
 
@@ -66,13 +67,13 @@ def get_latest(soup):
         filename = city + "_" + date + ".csv"
 
         file_sibling = city_sib.next_sibling.next_sibling
-        download_file = file_sibling.a.get('href')
+        download_file = file_sibling.a.get("href")
         yield filename, download_file
 
 
 def scrape_listings():
     """Scrapes US city listings from Inside Airbnb by city and latest_date.
-       Files are in airbnb/data/listings/<city+date.csv>
+    Files are in airbnb/data/listings/<city+date.csv>
     """
 
     # Setup the directory for storing listings
@@ -86,29 +87,29 @@ def scrape_listings():
     try:
         r.raise_for_status()
     except HTTPError as e:
-        print(f'Error connecting to: {URL}: {e}')
+        print(f"Error connecting to: {URL}: {e}")
         sys.exit()
 
     soup = BeautifulSoup(r.text, "html.parser")
 
-    if SCOPE == 'ALL':
+    if SCOPE == "ALL":
         cities = get_all(soup)
     else:
         cities = get_latest(soup)
 
     for file_name, file_url in cities:
 
-        time.sleep(5)    # delay for polite scraping
+        time.sleep(5)  # delay for polite scraping
         print(f"Downloading: {file_name}")
         download_file = requests.get(file_url)
 
         try:
             download_file.raise_for_status()
         except HTTPError as e:
-            print(f'Error connecting to: {URL}: {e}')
+            print(f"Error connecting to: {URL}: {e}")
             print("Skipping to next city.")
 
-        open(path+file_name, 'wb').write(download_file.content)
+        open(path + file_name, "wb").write(download_file.content)
 
 
 if __name__ == "__main__":

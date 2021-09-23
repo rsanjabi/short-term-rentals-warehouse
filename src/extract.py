@@ -1,10 +1,12 @@
-'''
+#!/usr/bin/env python3
+
+"""
     Extracts all the data needed for short-term-rental datawarehouse.
     Ensure you have a Kaggle account and API token setup.
 
     example:
         python extract.py
-'''
+"""
 import kaggle_data
 import listings
 
