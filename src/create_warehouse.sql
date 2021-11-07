@@ -9,7 +9,7 @@
 -- RAW and ANALYTICS are the two databases used in the DW
 CREATE DATABASE IF NOT EXISTS raw;
 CREATE DATABASE IF NOT EXISTS analytics;
-USING database analytics;
+USE database analytics;
 CREATE SCHEMA IF NOT EXISTS model;
 
 -- There are 3 warehouses (compute engines) used in Snowflake:
