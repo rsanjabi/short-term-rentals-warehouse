@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-''' Load reads in data files before staging and loading them in snowflake'''
+#!/usr/bin/env python3
+""" Load reads in data files before staging and loading them in snowflake"""
 
 import snowflake.connector
 import glob
@@ -8,19 +8,19 @@ import time
 
 
 def get_listings():
-    ''' Generator of city names, scrape date and file path'''
+    """Generator of city names, scrape date and file path"""
 
     # os.chdir(os.path.dirname(os.path.abspath(__file__)))
     # os.chdir("../data/listings")
     listing = {}
     for f in glob.glob("*.csv"):
-        listing['city'], listing['date'] = f.rstrip(".csv").split("_")
-        listing['file'] = f
+        listing["city"], listing["date"] = f.rstrip(".csv").split("_")
+        listing["file"] = f
         yield listing
 
 
 def load_listings(ctx):
-    ''' Stage and load airbnb listings to snowflake'''
+    """Stage and load airbnb listings to snowflake"""
     cs = ctx.cursor()
 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +28,7 @@ def load_listings(ctx):
 
     try:
         # Create table
-        table_sql = '''CREATE OR REPLACE TABLE raw_listings
+        table_sql = """CREATE OR REPLACE TABLE raw_listings
                     (id integer,
                      name string,
                      host_id integer,
@@ -47,14 +47,14 @@ def load_listings(ctx):
                      availability_365 integer,
                      city string,
                      scrape_date date);
-                    '''
+                    """
         cs.execute(table_sql)
 
         # Create stage
-        stg_sql = '''CREATE OR REPLACE STAGE stg_listings
+        stg_sql = """CREATE OR REPLACE STAGE stg_listings
                     FILE_FORMAT = (type = 'CSV' skip_header = 1
                     FIELD_OPTIONALLY_ENCLOSED_BY = '\042');
-                    '''
+                    """
         cs.execute(stg_sql)
 
         listings = get_listings()
@@ -82,12 +82,12 @@ def load_listings(ctx):
 
 
 def load_cost_living(ctx):
-    ''' Stage and load cost of living data to snowflake'''
+    """Stage and load cost of living data to snowflake"""
     cs = ctx.cursor()
 
     try:
         # Create table
-        table_sql = '''CREATE OR REPLACE TABLE raw_costs
+        table_sql = """CREATE OR REPLACE TABLE raw_costs
                     (rank integer,
                         city string,
                         living_idx float,
@@ -96,14 +96,14 @@ def load_cost_living(ctx):
                         groceries_idx float,
                         restaurant_idx float,
                         purch_power_idx float);
-                    '''
+                    """
         cs.execute(table_sql)
 
         # Create stage
-        stg_sql = '''CREATE OR REPLACE stage stg_costs
+        stg_sql = """CREATE OR REPLACE stage stg_costs
                     file_format = (type = 'CSV' skip_header = 1
                     FIELD_OPTIONALLY_ENCLOSED_BY = '\042');
-                    '''
+                    """
         cs.execute(stg_sql)
 
         # Put local file into internal stage
@@ -124,12 +124,12 @@ def load_cost_living(ctx):
 
 
 def load_population(ctx):
-    ''' Stage and load population data to snowflake'''
+    """Stage and load population data to snowflake"""
     cs = ctx.cursor()
 
     try:
         # Create table
-        table_sql = '''CREATE OR REPLACE TABLE raw_population
+        table_sql = """CREATE OR REPLACE TABLE raw_population
                        (geonameid integer,
                         name string,
                         asciiname string,
@@ -150,15 +150,15 @@ def load_population(ctx):
                         timezone string,
                         modification_date date
                         );
-                    '''
+                    """
         cs.execute(table_sql)
 
         # Create stage
-        stg_sql = '''CREATE OR REPLACE STAGE stg_pop
+        stg_sql = """CREATE OR REPLACE STAGE stg_pop
                      file_format = (type = 'CSV' skip_header = 1
                         FIELD_OPTIONALLY_ENCLOSED_BY = '\042'
                         ENCODING='ISO-8859-1');
-                    '''
+                    """
         cs.execute(stg_sql)
 
         # Put local file into internal stage
@@ -168,8 +168,8 @@ def load_population(ctx):
         cs.execute(put_sql)
 
         # Copy internal stage to raw load table
-        cp_sql = '''copy into raw_population from @stg_pop ON_ERROR = CONTINUE;
-                '''
+        cp_sql = """copy into raw_population from @stg_pop ON_ERROR = CONTINUE;
+                """
         cs.execute(cp_sql)
 
     except Exception as e:
@@ -181,20 +181,20 @@ def load_population(ctx):
 
 
 def init_db():
-    ''' Initialize snowflake connector, db, and dw'''
+    """Initialize snowflake connector, db, and dw"""
     ctx = snowflake.connector.connect(
         user=os.environ["SNOW_USER"],
         password=os.environ["SNOW_PASS"],
-        account=os.environ["SNOW_ACCOUNT"]
-        )
+        account=os.environ["SNOW_ACCOUNT"],
+    )
     cs = ctx.cursor()
 
     try:
         cs.execute("CREATE DATABASE IF NOT EXISTS raw;")
-        wh_sql = '''CREATE WAREHOUSE IF NOT EXISTS loading WITH
+        wh_sql = """CREATE WAREHOUSE IF NOT EXISTS loading WITH
                     WAREHOUSE_SIZE = 'XSMALL' WAREHOUSE_TYPE = 'STANDARD'
                     AUTO_SUSPEND = 300 AUTO_RESUME = TRUE;
-                    '''
+                    """
         cs.execute(wh_sql)
         cs.execute("USE ROLE sysadmin;")
         cs.execute("USE WAREHOUSE loading;")
@@ -209,7 +209,7 @@ def init_db():
 
 
 def load_db():
-    ''' Will take all the steps needed to load the data into snowflake'''
+    """Will take all the steps needed to load the data into snowflake"""
     ctx = init_db()
     load_cost_living(ctx)
     print("Loaded cost of living data.")
